@@ -1,0 +1,7 @@
+Static assets served from /public:
+  Mohit_Barse_Resume.pdf  — downloadable resume (linked from the navbar, hero and contact page)
+  favicon.svg             — brand mark
+  icon-192.png / icon-512.png / apple-icon.png — PWA and Apple touch icons
+  manifest.webmanifest    — installable web app manifest
+Replace Mohit_Barse_Resume.pdf to update the resume everywhere; the path is set in
+src/data/portfolio.json -> profile.resumePath.

@@ -1,0 +1,1305 @@
+{
+  "projects": [
+    {
+      "slug": "agentic-cybersecurity-soc",
+      "title": "Agentic Cybersecurity SOC",
+      "tagline": "Multi-agent Security Operations Center that triages logs and writes the incident report for you.",
+      "category": "Agentic AI",
+      "featured": true,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/Agentic-Cybersecurity-Soc",
+      "github": "https://github.com/MohitKB22/Agentic-Cybersecurity-Soc",
+      "demo": null,
+      "stars": 2,
+      "accent": "#5AA8FF",
+      "description": "A multi-agent SOC framework where specialised agents divide the incident-response workflow between them: one triages raw logs, one detects anomalies, one correlates findings against MITRE ATT&CK techniques, one drafts a mitigation plan, and a final agent assembles a human-readable incident report. Agents communicate through shared state, so a low-confidence result upstream forces a re-check downstream instead of silently propagating.",
+      "problem": "Security analysts drown in alert volume. Most alerts are noise, but the cost of missing the real one is asymmetric — so everything gets read, and analysts burn out on triage instead of investigation.",
+      "approach": "Split the analyst workflow into discrete agent roles with explicit hand-offs, ground every classification in MITRE ATT&CK, and require each agent to cite the log lines that justified its conclusion.",
+      "features": [
+        "Log triage agent that clusters and prioritises raw events before any LLM reasoning happens",
+        "Statistical and model-based anomaly detection over event streams",
+        "Automatic MITRE ATT&CK technique correlation with confidence scoring",
+        "Mitigation planning agent that proposes ordered containment steps",
+        "Incident report generation in analyst-ready Markdown",
+        "Evidence citation — every claim links back to its source log lines"
+      ],
+      "architecture": [
+        {
+          "layer": "Ingestion",
+          "detail": "Log normalisation and enrichment into a common event schema"
+        },
+        {
+          "layer": "Triage Agent",
+          "detail": "Clustering and priority scoring to cut volume before LLM cost is incurred"
+        },
+        {
+          "layer": "Detection Agent",
+          "detail": "Anomaly detection against behavioural baselines"
+        },
+        {
+          "layer": "Correlation Agent",
+          "detail": "MITRE ATT&CK mapping with confidence thresholds"
+        },
+        {
+          "layer": "Response Agent",
+          "detail": "Mitigation planning and incident report synthesis"
+        }
+      ],
+      "stack": ["Python", "LangGraph", "CrewAI", "Ollama", "FastAPI", "MITRE ATT&CK", "Docker"],
+      "metrics": [
+        {
+          "label": "Agent roles",
+          "value": "5"
+        },
+        {
+          "label": "Pipeline stages",
+          "value": "5"
+        },
+        {
+          "label": "ATT&CK mapped",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "slug": "self-healing-rag",
+      "title": "Self-Healing RAG",
+      "tagline": "A LangGraph RAG pipeline that notices when it is about to hallucinate and retries instead.",
+      "category": "RAG & Retrieval",
+      "featured": true,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/self-healing-rag",
+      "github": "https://github.com/MohitKB22/self-healing-rag",
+      "demo": null,
+      "stars": 1,
+      "accent": "#2D7CFF",
+      "description": "An agentic retrieval-augmented generation pipeline built on LangGraph that treats the naive retrieve-then-generate loop as a starting point rather than the whole system. Before returning an answer it validates that every claim is grounded in retrieved context. If grounding fails it reformulates the query, retrieves again, and only surfaces an answer once the groundedness check passes — or explicitly says it does not know.",
+      "problem": "Standard RAG fails silently. When retrieval returns weak context the model still produces a fluent, confident, wrong answer, and nothing in the pipeline notices.",
+      "approach": "Model retrieval as a cyclic graph with validation nodes. Grounding, relevance and hallucination checks become first-class states with their own retry edges, so failure is recoverable instead of terminal.",
+      "features": [
+        "Answer-grounding validation against retrieved evidence before response",
+        "Hallucination detection node with configurable strictness",
+        "Automatic query reformulation when retrieval quality is insufficient",
+        "Bounded retrieval retries to prevent infinite correction loops",
+        "Explicit abstention path — the system can say 'not in the corpus'",
+        "Per-node tracing so every retry decision is auditable"
+      ],
+      "architecture": [
+        {
+          "layer": "Retriever",
+          "detail": "Hybrid dense and sparse retrieval over the document corpus"
+        },
+        {
+          "layer": "Grader",
+          "detail": "Relevance scoring of each retrieved chunk against the question"
+        },
+        {
+          "layer": "Generator",
+          "detail": "Answer synthesis constrained to graded context"
+        },
+        {
+          "layer": "Validator",
+          "detail": "Groundedness and hallucination checks with retry edges"
+        },
+        {
+          "layer": "Rewriter",
+          "detail": "Query reformulation node that feeds back into retrieval"
+        }
+      ],
+      "stack": ["Python", "LangGraph", "LangChain", "ChromaDB", "OpenAI", "Pydantic"],
+      "metrics": [
+        {
+          "label": "Retry strategy",
+          "value": "Bounded"
+        },
+        {
+          "label": "Graph nodes",
+          "value": "5"
+        },
+        {
+          "label": "Can abstain",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "slug": "llm-guardrails-gateway",
+      "title": "LLM Guardrails Gateway",
+      "tagline": "A middleware layer that sits between your app and the model, and enforces the rules.",
+      "category": "AI Safety",
+      "featured": true,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/LLM-Guardrails-Gateway",
+      "github": "https://github.com/MohitKB22/LLM-Guardrails-Gateway",
+      "demo": null,
+      "stars": 1,
+      "accent": "#7C5AFF",
+      "description": "A lightweight framework for securing and governing LLM applications. It intercepts requests on the way in and responses on the way out, applying prompt validation, content filtering, policy enforcement and response inspection — with observability hooks so you can see what was blocked and why. Designed to drop in as middleware rather than be rewritten into every call site.",
+      "problem": "Safety logic gets scattered across every LLM call site, implemented slightly differently each time, and becomes impossible to audit or update centrally.",
+      "approach": "Centralise the policy layer as a gateway. One place defines what is allowed in and out, one place emits the telemetry, and application code just makes calls.",
+      "features": [
+        "Inbound prompt validation with injection-pattern detection",
+        "Configurable content filtering and PII redaction",
+        "Declarative policy enforcement independent of application code",
+        "Outbound response inspection before content reaches the user",
+        "Pluggable middleware chain — add checks without touching the core",
+        "Structured observability: what was blocked, by which rule, at what cost"
+      ],
+      "architecture": [
+        {
+          "layer": "Ingress",
+          "detail": "Prompt validation, injection detection and PII redaction"
+        },
+        {
+          "layer": "Policy Engine",
+          "detail": "Declarative rule evaluation with allow, warn and block outcomes"
+        },
+        {
+          "layer": "Model Adapter",
+          "detail": "Provider-agnostic dispatch to OpenAI, Anthropic, Groq or Ollama"
+        },
+        {
+          "layer": "Egress",
+          "detail": "Response inspection, toxicity and policy-compliance scoring"
+        },
+        {
+          "layer": "Telemetry",
+          "detail": "Structured logs and metrics for every decision"
+        }
+      ],
+      "stack": ["Python", "FastAPI", "Pydantic", "OpenAI", "Anthropic", "Docker", "Prometheus"],
+      "metrics": [
+        {
+          "label": "Check phases",
+          "value": "2-way"
+        },
+        {
+          "label": "Providers",
+          "value": "4+"
+        },
+        {
+          "label": "Deploys as",
+          "value": "Middleware"
+        }
+      ]
+    },
+    {
+      "slug": "llm-evalforge",
+      "title": "LLM EvalForge",
+      "tagline": "Quality gates for LLM apps that fail the build, not the user.",
+      "category": "AI Safety",
+      "featured": true,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/LLM-EvalForge",
+      "github": "https://github.com/MohitKB22/LLM-EvalForge",
+      "demo": null,
+      "stars": 1,
+      "accent": "#00C2A8",
+      "description": "An automated quality-gate framework for LLM applications that runs as part of CI/CD. Every pull request triggers a benchmark suite covering hallucination, toxicity and policy compliance; results are published to GitHub Pages as a browsable report, and regressions below the configured threshold fail the build the same way a broken unit test would.",
+      "problem": "LLM behaviour regresses invisibly. A prompt tweak or model version bump can quietly degrade quality, and without automated evaluation nobody finds out until users complain.",
+      "approach": "Treat evaluation as testing. Define a benchmark suite, run it on every commit, publish the diff, and block merges when scores drop below threshold.",
+      "features": [
+        "Automated hallucination, toxicity and policy-compliance scoring",
+        "Configurable AI guardrails per evaluation run",
+        "Reusable validation pipeline supporting multiple LLM providers",
+        "CI/CD integration with pass/fail thresholds that gate merges",
+        "GitHub Pages reporting with run-over-run comparison",
+        "Benchmark versioning so results stay comparable over time"
+      ],
+      "architecture": [
+        {
+          "layer": "Suite Definition",
+          "detail": "YAML-declared test cases, rubrics and thresholds"
+        },
+        {
+          "layer": "Runner",
+          "detail": "Provider-agnostic execution across the models under test"
+        },
+        {
+          "layer": "Scorers",
+          "detail": "Hallucination, toxicity and compliance metric implementations"
+        },
+        {
+          "layer": "Gate",
+          "detail": "Threshold evaluation that returns a CI exit code"
+        },
+        {
+          "layer": "Reporter",
+          "detail": "Static HTML report published to GitHub Pages"
+        }
+      ],
+      "stack": ["Python", "GitHub Actions", "Pytest", "OpenAI", "Hugging Face", "GitHub Pages"],
+      "metrics": [
+        {
+          "label": "Runs in",
+          "value": "CI/CD"
+        },
+        {
+          "label": "Metric families",
+          "value": "3"
+        },
+        {
+          "label": "Manual testing",
+          "value": "Reduced"
+        }
+      ]
+    },
+    {
+      "slug": "insightflow-ai",
+      "title": "InsightFlow AI",
+      "tagline": "Streaming ELT with fraud detection and LLM-generated insight on top.",
+      "category": "Data & MLOps",
+      "featured": true,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/InsightFlowAI",
+      "github": "https://github.com/MohitKB22/InsightFlowAI",
+      "demo": null,
+      "stars": 2,
+      "accent": "#FF8A3D",
+      "description": "A production-style ELT architecture that takes an event stream from ingestion through feature engineering to a fraud-detection model, then layers OpenAI-generated narrative insight on top of the numbers. FastAPI serves the models, Streamlit renders the operator dashboard, and observability tooling tracks both pipeline health and model behaviour.",
+      "problem": "Analytics dashboards show what happened but not what it means. Meanwhile the fraud model and the data pipeline are usually two disconnected systems with no shared observability.",
+      "approach": "Build one pipeline where streaming ingestion, feature engineering, scoring and explanation are stages of the same system, with a single observability surface across all of them.",
+      "features": [
+        "Event streaming ingestion with schema enforcement",
+        "Reusable feature-engineering layer shared between training and serving",
+        "Fraud detection scoring exposed as a FastAPI service",
+        "LLM-generated narrative insight over aggregated metrics",
+        "Streamlit operator dashboard with drill-down",
+        "Pipeline and model observability in one place"
+      ],
+      "architecture": [
+        {
+          "layer": "Stream",
+          "detail": "Event ingestion with schema validation at the boundary"
+        },
+        {
+          "layer": "Transform",
+          "detail": "Feature engineering shared by training and inference"
+        },
+        {
+          "layer": "Model",
+          "detail": "Fraud detection scoring served over FastAPI"
+        },
+        {
+          "layer": "Insight",
+          "detail": "OpenAI summarisation of aggregate signals"
+        },
+        {
+          "layer": "Surface",
+          "detail": "Streamlit dashboards plus metrics and tracing"
+        }
+      ],
+      "stack": ["Python", "FastAPI", "Streamlit", "OpenAI", "PostgreSQL", "Docker", "Pandas"],
+      "metrics": [
+        {
+          "label": "Pipeline",
+          "value": "ELT"
+        },
+        {
+          "label": "Serving",
+          "value": "FastAPI"
+        },
+        {
+          "label": "Observability",
+          "value": "Built-in"
+        }
+      ]
+    },
+    {
+      "slug": "ai-bloodgroup-prediction",
+      "title": "AI Blood Group Prediction",
+      "tagline": "Full-stack fingerprint classification with ensemble deep learning and Grad-CAM explanations.",
+      "category": "Computer Vision",
+      "featured": true,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/AI-Bloodgroup-prediction",
+      "github": "https://github.com/MohitKB22/AI-Bloodgroup-prediction",
+      "demo": null,
+      "stars": 1,
+      "accent": "#E5484D",
+      "description": "A production-ready full-stack AI platform for fingerprint image classification. An ensemble of deep learning models produces the prediction, Grad-CAM produces the explanation, and the surrounding platform — JWT auth, analytics dashboard, multilingual UI, Redis caching, CI/CD — makes it something you could actually deploy rather than a notebook with a demo cell.",
+      "problem": "Most computer-vision projects stop at model accuracy. Nothing around the model — auth, caching, explanations, deployment — exists, so the result cannot be used by anyone but its author.",
+      "approach": "Build the whole system: React frontend, FastAPI backend, PostgreSQL and Redis, containerised, with explainability treated as a product feature rather than a debugging tool.",
+      "features": [
+        "Ensemble deep learning classifier over fingerprint imagery",
+        "Grad-CAM heatmaps surfaced directly in the interface",
+        "JWT authentication with role-aware access",
+        "Analytics dashboard tracking prediction distribution and confidence",
+        "Multilingual interface support",
+        "Fully containerised with CI/CD pipelines"
+      ],
+      "architecture": [
+        {
+          "layer": "Frontend",
+          "detail": "React SPA with multilingual support and result visualisation"
+        },
+        {
+          "layer": "API",
+          "detail": "FastAPI with JWT auth and request validation"
+        },
+        {
+          "layer": "Inference",
+          "detail": "Ensemble CNN prediction with Grad-CAM attribution"
+        },
+        {
+          "layer": "State",
+          "detail": "PostgreSQL for records, Redis for inference caching"
+        },
+        {
+          "layer": "Delivery",
+          "detail": "Docker Compose plus GitHub Actions CI/CD"
+        }
+      ],
+      "stack": [
+        "Python",
+        "PyTorch",
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Grad-CAM"
+      ],
+      "metrics": [
+        {
+          "label": "Model",
+          "value": "Ensemble"
+        },
+        {
+          "label": "Explainability",
+          "value": "Grad-CAM"
+        },
+        {
+          "label": "Auth",
+          "value": "JWT"
+        }
+      ]
+    },
+    {
+      "slug": "automail-agent",
+      "title": "AutoMail Agent",
+      "tagline": "An autonomous inbox assistant built on Claude that drafts, triages and files.",
+      "category": "Agentic AI",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/AutoMail-Agent",
+      "github": "https://github.com/MohitKB22/AutoMail-Agent",
+      "demo": null,
+      "stars": 2,
+      "accent": "#5AA8FF",
+      "description": "A production-ready autonomous email assistant built with Claude, FastAPI and Streamlit. It classifies incoming mail by intent and urgency, drafts contextual replies, and keeps a human in the loop for anything it is not confident about — the approval step is a design decision, not a limitation.",
+      "problem": "Inbox triage is repetitive but not trivially automatable: the cost of a wrong autonomous reply is much higher than the cost of a slow one.",
+      "approach": "Let the agent do classification and drafting at full speed, but gate sending behind a confidence threshold and an explicit human approval surface.",
+      "features": [
+        "Intent and urgency classification for incoming mail",
+        "Context-aware reply drafting with tone matching",
+        "Confidence-gated human approval before any send",
+        "Thread summarisation for long conversations",
+        "Streamlit review console",
+        "FastAPI backend deployable as a service"
+      ],
+      "architecture": [
+        {
+          "layer": "Connector",
+          "detail": "Mailbox polling and thread normalisation"
+        },
+        {
+          "layer": "Classifier",
+          "detail": "Claude-driven intent, urgency and sentiment labelling"
+        },
+        {
+          "layer": "Drafter",
+          "detail": "Reply generation grounded in thread history"
+        },
+        {
+          "layer": "Approval",
+          "detail": "Confidence threshold plus human review console"
+        }
+      ],
+      "stack": ["Python", "Anthropic Claude", "FastAPI", "Streamlit", "Pydantic"],
+      "metrics": [
+        {
+          "label": "Human in loop",
+          "value": "Always"
+        },
+        {
+          "label": "Model",
+          "value": "Claude"
+        },
+        {
+          "label": "Interface",
+          "value": "Streamlit"
+        }
+      ]
+    },
+    {
+      "slug": "ai-data-quality-monitoring",
+      "title": "AI Data Quality Monitoring",
+      "tagline": "Drift, anomalies and validation alerts for the datasets your models depend on.",
+      "category": "Data & MLOps",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/Ai-data-quality-monitoring",
+      "github": "https://github.com/MohitKB22/Ai-data-quality-monitoring",
+      "demo": null,
+      "stars": 0,
+      "accent": "#00C2A8",
+      "description": "An end-to-end data quality monitoring system combining anomaly detection, drift monitoring and rule-based validation, wired to alerting and orchestrated with Airflow. MLflow tracks the monitoring models themselves, and a Streamlit dashboard makes the current health of every dataset legible at a glance.",
+      "problem": "Models degrade because their input data changed, not because the model changed — and nothing in a typical stack is watching for that.",
+      "approach": "Monitor the data as rigorously as the model: statistical drift detection, schema validation and anomaly scoring running on a schedule with real alerting.",
+      "features": [
+        "Statistical drift detection across numeric and categorical features",
+        "Rule-based schema and constraint validation",
+        "Anomaly detection over data distributions",
+        "Alerting on threshold breach",
+        "Airflow orchestration for scheduled monitoring runs",
+        "MLflow experiment tracking and a Streamlit dashboard"
+      ],
+      "architecture": [
+        {
+          "layer": "Collectors",
+          "detail": "Dataset snapshots and profile computation"
+        },
+        {
+          "layer": "Detectors",
+          "detail": "Drift, anomaly and constraint-violation scoring"
+        },
+        {
+          "layer": "Alerting",
+          "detail": "Threshold-based notification routing"
+        },
+        {
+          "layer": "Orchestration",
+          "detail": "Airflow DAGs with MLflow run tracking"
+        }
+      ],
+      "stack": ["Python", "Airflow", "MLflow", "Streamlit", "FastAPI", "Docker", "Pandas"],
+      "metrics": [
+        {
+          "label": "Orchestration",
+          "value": "Airflow"
+        },
+        {
+          "label": "Tracking",
+          "value": "MLflow"
+        },
+        {
+          "label": "Delivery",
+          "value": "Docker"
+        }
+      ]
+    },
+    {
+      "slug": "genai-pipelines",
+      "title": "GenAI Pipelines",
+      "tagline": "Five production-style GenAI pipelines, built end to end and documented to learn from.",
+      "category": "RAG & Retrieval",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/Genai-Pipelines",
+      "github": "https://github.com/MohitKB22/Genai-Pipelines",
+      "demo": null,
+      "stars": 2,
+      "accent": "#2D7CFF",
+      "description": "A teaching repository that builds five production-style GenAI pipelines from scratch: classical RAG, a legal-document AI, autonomous research agents, multimodal RAG over images and text, and an agentic system working against live data. Each pipeline is a complete, runnable system with its own trade-off discussion rather than a tutorial snippet.",
+      "problem": "GenAI tutorials teach the happy path. They skip chunking strategy, retrieval evaluation, cost control and the failure modes that actually determine whether a pipeline works.",
+      "approach": "Build five real pipelines with different constraints, and document what broke and why in each one.",
+      "features": [
+        "Pipeline 1 — foundational RAG with chunking and retrieval evaluation",
+        "Pipeline 2 — legal AI with citation-grounded answers",
+        "Pipeline 3 — autonomous research agents with tool use",
+        "Pipeline 4 — multimodal RAG across text and images",
+        "Pipeline 5 — agentic AI operating on live external data",
+        "Cost and latency notes for each architecture"
+      ],
+      "architecture": [
+        {
+          "layer": "Foundations",
+          "detail": "Chunking, embedding and retrieval evaluation baselines"
+        },
+        {
+          "layer": "Domain",
+          "detail": "Legal document grounding with mandatory citation"
+        },
+        {
+          "layer": "Agents",
+          "detail": "Tool-using research loops with termination conditions"
+        },
+        {
+          "layer": "Multimodal",
+          "detail": "Joint text and image retrieval and reasoning"
+        }
+      ],
+      "stack": ["Python", "LangChain", "LangGraph", "Pinecone", "OpenAI", "Hugging Face"],
+      "metrics": [
+        {
+          "label": "Pipelines",
+          "value": "5"
+        },
+        {
+          "label": "Modalities",
+          "value": "Text + Image"
+        },
+        {
+          "label": "Style",
+          "value": "Production"
+        }
+      ]
+    },
+    {
+      "slug": "project-neo",
+      "title": "Project NEO",
+      "tagline": "A wake-word voice assistant with memory and real system automation.",
+      "category": "Agentic AI",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/Project-NEO",
+      "github": "https://github.com/MohitKB22/Project-NEO",
+      "demo": null,
+      "stars": 3,
+      "accent": "#7C5AFF",
+      "description": "An agentic AI voice assistant with persistent memory, wake-word activation and genuine system automation — it can act on the machine it runs on rather than only answering questions. GPT-powered reasoning decides which tool to invoke; memory means it remembers what you told it last week.",
+      "problem": "Voice assistants forget everything between sessions and cannot actually do anything on the device they run on.",
+      "approach": "Combine wake-word detection, a persistent memory store and a tool-calling loop with real system-level actions behind a confirmation layer.",
+      "features": [
+        "Always-listening wake-word activation",
+        "Persistent long-term memory across sessions",
+        "GPT-powered tool selection and reasoning",
+        "System automation across files, applications and shell actions",
+        "Speech-to-text and text-to-speech pipeline",
+        "Confirmation gate before destructive operations"
+      ],
+      "architecture": [
+        {
+          "layer": "Wake Word",
+          "detail": "Local always-on keyword spotting"
+        },
+        {
+          "layer": "ASR / TTS",
+          "detail": "Speech recognition and voice synthesis loop"
+        },
+        {
+          "layer": "Reasoner",
+          "detail": "GPT tool-calling with memory retrieval"
+        },
+        {
+          "layer": "Actuator",
+          "detail": "System automation behind a confirmation gate"
+        }
+      ],
+      "stack": ["Python", "OpenAI", "Speech Recognition", "TTS", "Vector Memory"],
+      "metrics": [
+        {
+          "label": "Memory",
+          "value": "Persistent"
+        },
+        {
+          "label": "Activation",
+          "value": "Wake word"
+        },
+        {
+          "label": "Stars",
+          "value": "3"
+        }
+      ]
+    },
+    {
+      "slug": "neuroq-eeg-seizure-detection",
+      "title": "NeuroQ — Quantum EEG Seizure Detection",
+      "tagline": "Quantum machine learning applied to EEG-based epilepsy diagnosis.",
+      "category": "Deep Learning",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/NeuroQ-Quantum-EEG-Seizure-Detection",
+      "github": "https://github.com/MohitKB22/NeuroQ-Quantum-EEG-Seizure-Detection",
+      "demo": null,
+      "stars": 1,
+      "accent": "#00C2A8",
+      "description": "An end-to-end EEG-based epilepsy diagnosis platform combining quantum machine learning, deep learning and classical signal processing for seizure classification. The pipeline runs from raw multi-channel EEG through filtering and feature extraction to a hybrid quantum-classical classifier, with the classical deep learning baseline retained for honest comparison.",
+      "problem": "EEG seizure detection is a high-dimensional, low-sample-count problem — exactly the regime where quantum feature maps are theorised to help, and where that claim is rarely tested against a fair baseline.",
+      "approach": "Build both models on the same preprocessing pipeline and evaluation protocol so the quantum variant is compared against a real deep learning baseline rather than a strawman.",
+      "features": [
+        "Multi-channel EEG signal preprocessing and artefact removal",
+        "Time and frequency-domain feature extraction",
+        "Hybrid quantum-classical classification circuit",
+        "Classical deep learning baseline on identical splits",
+        "Per-class evaluation with sensitivity and specificity reporting",
+        "Reproducible experiment configuration"
+      ],
+      "architecture": [
+        {
+          "layer": "Signal",
+          "detail": "Filtering, segmentation and artefact rejection"
+        },
+        {
+          "layer": "Features",
+          "detail": "Spectral and statistical feature extraction"
+        },
+        {
+          "layer": "Quantum",
+          "detail": "Variational circuit classifier over encoded features"
+        },
+        {
+          "layer": "Baseline",
+          "detail": "Deep learning comparison on identical splits"
+        }
+      ],
+      "stack": ["Python", "Quantum ML", "TensorFlow", "SciPy", "NumPy", "Signal Processing"],
+      "metrics": [
+        {
+          "label": "Domain",
+          "value": "EEG"
+        },
+        {
+          "label": "Models",
+          "value": "Hybrid"
+        },
+        {
+          "label": "Baseline",
+          "value": "Included"
+        }
+      ]
+    },
+    {
+      "slug": "ai-based-resume-analyser",
+      "title": "AI Resume Analyser",
+      "tagline": "ATS scoring and keyword optimisation for resumes, from both sides of the hiring desk.",
+      "category": "NLP",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/AI-BASED-RESUME-ANALYSER",
+      "github": "https://github.com/MohitKB22/AI-BASED-RESUME-ANALYSER",
+      "demo": null,
+      "stars": 2,
+      "accent": "#FF8A3D",
+      "description": "A resume intelligence tool serving both recruiters and candidates. It automates screening for recruiters while giving job seekers a resume score, ATS compatibility check, keyword gap analysis and personalised improvement suggestions — all derived from unstructured resume text using NLP and classical machine learning.",
+      "problem": "Resume screening is subjective and opaque. Candidates get rejected by parsers they cannot see, and recruiters read hundreds of documents to find a handful of matches.",
+      "approach": "Extract structure from unstructured resume text, score it against the job description, and expose the reasoning to both sides rather than hiding it.",
+      "features": [
+        "Automated resume parsing from PDF and DOCX",
+        "ATS compatibility scoring with explicit failure reasons",
+        "Job-description keyword gap analysis",
+        "Personalised, actionable improvement suggestions",
+        "Recruiter-side bulk screening and ranking",
+        "Skill extraction and normalisation"
+      ],
+      "architecture": [
+        {
+          "layer": "Parser",
+          "detail": "Text and section extraction from resume documents"
+        },
+        {
+          "layer": "NLP",
+          "detail": "Entity and skill extraction with normalisation"
+        },
+        {
+          "layer": "Scorer",
+          "detail": "ATS compatibility and job-fit scoring"
+        },
+        {
+          "layer": "Advisor",
+          "detail": "Gap analysis and improvement recommendations"
+        }
+      ],
+      "stack": ["Python", "NLP", "Scikit-learn", "spaCy", "Streamlit", "Pandas"],
+      "metrics": [
+        {
+          "label": "Audience",
+          "value": "Both sides"
+        },
+        {
+          "label": "Input",
+          "value": "PDF / DOCX"
+        },
+        {
+          "label": "Output",
+          "value": "Scored"
+        }
+      ]
+    },
+    {
+      "slug": "agenticai-travelplanner",
+      "title": "AgenticAI Travel Planner",
+      "tagline": "Agent orchestration, budget estimation and conversational planning in one product.",
+      "category": "Agentic AI",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/AgenticAI-TravelPlanner",
+      "github": "https://github.com/MohitKB22/AgenticAI-TravelPlanner",
+      "demo": null,
+      "stars": 2,
+      "accent": "#5AA8FF",
+      "description": "A production-grade travel planning assistant that automates the whole trip-planning workflow through agentic orchestration. Separate agents handle itinerary construction, budget estimation and conversational refinement, sharing state so that changing the budget re-plans the itinerary rather than contradicting it.",
+      "problem": "Trip planning spans a dozen tools and a hundred small decisions, and single-prompt LLM answers produce itineraries that do not survive a budget check.",
+      "approach": "Decompose planning into specialised agents over shared state, so constraints propagate instead of being re-stated in every prompt.",
+      "features": [
+        "Multi-agent itinerary construction with day-level detail",
+        "Budget estimation that constrains rather than annotates the plan",
+        "Conversational refinement over the existing itinerary",
+        "Shared state so constraint changes trigger re-planning",
+        "Interactive planning interface",
+        "Exportable final itinerary"
+      ],
+      "architecture": [
+        {
+          "layer": "Intake",
+          "detail": "Preference and constraint elicitation"
+        },
+        {
+          "layer": "Planner",
+          "detail": "Itinerary construction agent over destination data"
+        },
+        {
+          "layer": "Budget",
+          "detail": "Cost estimation agent that constrains the plan"
+        },
+        {
+          "layer": "Refiner",
+          "detail": "Conversational edit loop over shared state"
+        }
+      ],
+      "stack": ["Python", "LangChain", "Agentic AI", "Streamlit", "OpenAI"],
+      "metrics": [
+        {
+          "label": "Agents",
+          "value": "Multi"
+        },
+        {
+          "label": "State",
+          "value": "Shared"
+        },
+        {
+          "label": "Budgeting",
+          "value": "Built-in"
+        }
+      ]
+    },
+    {
+      "slug": "meeting-intelligence-app",
+      "title": "Meeting Intelligence",
+      "tagline": "Messy meeting notes in, structured decisions and action items out.",
+      "category": "NLP",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/meeting-intelligence-app",
+      "github": "https://github.com/MohitKB22/meeting-intelligence-app",
+      "demo": null,
+      "stars": 2,
+      "accent": "#2D7CFF",
+      "description": "Turns unstructured meeting notes and transcripts into structured output: action items with owners, decisions with rationale, a summary, and the follow-ups nobody wrote down. Built around structured extraction with schema validation so the output is machine-usable, not just readable.",
+      "problem": "Meeting notes are written for the person who was there. A week later nobody can tell what was decided or who owns what.",
+      "approach": "Extract to a strict schema — owner, action, decision, rationale, deadline — and validate before returning, so downstream tools can consume the result directly.",
+      "features": [
+        "Action item extraction with owner attribution",
+        "Decision log with captured rationale",
+        "Concise summary generation",
+        "Follow-up detection for unresolved threads",
+        "Schema-validated structured output",
+        "Handles transcripts and shorthand notes alike"
+      ],
+      "architecture": [
+        {
+          "layer": "Ingest",
+          "detail": "Transcript and note normalisation"
+        },
+        {
+          "layer": "Extractor",
+          "detail": "Structured LLM extraction against a strict schema"
+        },
+        {
+          "layer": "Validator",
+          "detail": "Pydantic validation with retry on schema failure"
+        },
+        {
+          "layer": "Render",
+          "detail": "Summary, decisions and action-item views"
+        }
+      ],
+      "stack": ["Python", "OpenAI", "Pydantic", "Streamlit", "FastAPI"],
+      "metrics": [
+        {
+          "label": "Output",
+          "value": "Structured"
+        },
+        {
+          "label": "Validation",
+          "value": "Schema"
+        },
+        {
+          "label": "Input",
+          "value": "Any notes"
+        }
+      ]
+    },
+    {
+      "slug": "tesla-stock-intelligence-dashboard",
+      "title": "Tesla Stock Intelligence",
+      "tagline": "Time-series forecasting with honest evaluation — R² up to 0.90 on 1-day horizons.",
+      "category": "Data & MLOps",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/tesla-stock-intelligence-dashboard",
+      "github": "https://github.com/MohitKB22/tesla-stock-intelligence-dashboard",
+      "demo": null,
+      "stars": 1,
+      "accent": "#E5484D",
+      "description": "A machine learning stock forecasting system for Tesla built around time-series analysis and rigorous model evaluation, reaching R² up to 0.90 on 1-day forecasts — with the accuracy decay across longer horizons shown rather than hidden. An interactive Streamlit dashboard exposes predictions, residuals and feature importance.",
+      "problem": "Stock prediction projects report a single flattering metric and quietly ignore that performance collapses beyond a one-step horizon.",
+      "approach": "Evaluate across multiple forecast horizons with walk-forward validation, and publish the degradation curve alongside the headline number.",
+      "features": [
+        "Time-series feature engineering with lag and rolling windows",
+        "Multi-horizon forecasting with per-horizon metrics",
+        "Walk-forward validation instead of naive random splits",
+        "Residual analysis and feature importance views",
+        "Interactive Streamlit dashboard",
+        "R² up to 0.90 on 1-day forecasts"
+      ],
+      "architecture": [
+        {
+          "layer": "Data",
+          "detail": "Historical OHLCV ingestion and cleaning"
+        },
+        {
+          "layer": "Features",
+          "detail": "Lag, rolling and technical indicator construction"
+        },
+        {
+          "layer": "Models",
+          "detail": "Regression ensemble with walk-forward validation"
+        },
+        {
+          "layer": "Dashboard",
+          "detail": "Streamlit forecast, residual and importance views"
+        }
+      ],
+      "stack": ["Python", "Scikit-learn", "Streamlit", "Pandas", "Plotly", "Time Series"],
+      "metrics": [
+        {
+          "label": "R² (1-day)",
+          "value": "0.90"
+        },
+        {
+          "label": "Validation",
+          "value": "Walk-forward"
+        },
+        {
+          "label": "Horizons",
+          "value": "Multi"
+        }
+      ]
+    },
+    {
+      "slug": "stockvision-pro",
+      "title": "StockVision Pro",
+      "tagline": "Real-time Nifty and equity analytics in one interactive dashboard.",
+      "category": "Data & MLOps",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/stockvision-pro",
+      "github": "https://github.com/MohitKB22/stockvision-pro",
+      "demo": null,
+      "stars": 2,
+      "accent": "#00C2A8",
+      "description": "An interactive dashboard for visualising Nifty index and individual stock market data with real-time insights and analytics — technical indicators, comparative performance and volatility views, built for someone who wants to read the market rather than admire a chart.",
+      "problem": "Retail market dashboards either show too little or bury the signal under a hundred indicators nobody configured deliberately.",
+      "approach": "Pick a focused indicator set, compute it correctly, and make comparison across instruments the primary interaction.",
+      "features": [
+        "Real-time Nifty and equity data ingestion",
+        "Technical indicator computation and overlay",
+        "Comparative multi-instrument performance views",
+        "Volatility and drawdown analysis",
+        "Interactive filtering by period and instrument",
+        "Responsive dashboard layout"
+      ],
+      "architecture": [
+        {
+          "layer": "Data",
+          "detail": "Market data ingestion and normalisation"
+        },
+        {
+          "layer": "Compute",
+          "detail": "Indicator and statistics computation layer"
+        },
+        {
+          "layer": "Visualise",
+          "detail": "Interactive charting with cross-instrument comparison"
+        }
+      ],
+      "stack": ["Python", "Streamlit", "Pandas", "Plotly", "yfinance"],
+      "metrics": [
+        {
+          "label": "Market",
+          "value": "NSE / Nifty"
+        },
+        {
+          "label": "Mode",
+          "value": "Real-time"
+        },
+        {
+          "label": "Charts",
+          "value": "Interactive"
+        }
+      ]
+    },
+    {
+      "slug": "ai-health-assistant",
+      "title": "AI Health Assistant",
+      "tagline": "Symptom tracking and wellness insight with privacy treated as a requirement.",
+      "category": "NLP",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/AI_Health_Assitant",
+      "github": "https://github.com/MohitKB22/AI_Health_Assitant",
+      "demo": null,
+      "stars": 2,
+      "accent": "#7C5AFF",
+      "description": "An AI health assistant for symptom monitoring, wellness tracking and personalised health insight through natural conversation. Built with explicit safety boundaries: it surfaces general guidance and escalation prompts, never diagnoses, and keeps health data under user control.",
+      "problem": "Health chatbots either refuse to say anything useful or confidently overstep into diagnosis — both failure modes damage trust.",
+      "approach": "Define the safe operating envelope up front: track and inform, escalate on red flags, and never present output as a clinical conclusion.",
+      "features": [
+        "Conversational symptom capture and tracking over time",
+        "Wellness metric logging and trend visualisation",
+        "Personalised, non-diagnostic health insight",
+        "Red-flag escalation prompts to seek professional care",
+        "Secure health data handling with user-controlled storage",
+        "Explicit safety boundaries encoded in the system prompt"
+      ],
+      "architecture": [
+        {
+          "layer": "Conversation",
+          "detail": "Symptom elicitation with structured capture"
+        },
+        {
+          "layer": "Safety",
+          "detail": "Red-flag detection and escalation routing"
+        },
+        {
+          "layer": "Insight",
+          "detail": "Trend analysis over logged wellness metrics"
+        },
+        {
+          "layer": "Storage",
+          "detail": "Encrypted, user-scoped health records"
+        }
+      ],
+      "stack": ["Python", "LLM", "Streamlit", "SQLite", "Pandas"],
+      "metrics": [
+        {
+          "label": "Diagnoses",
+          "value": "Never"
+        },
+        {
+          "label": "Escalation",
+          "value": "Built-in"
+        },
+        {
+          "label": "Data",
+          "value": "User-owned"
+        }
+      ]
+    },
+    {
+      "slug": "visionsummoner",
+      "title": "VisionSummoner",
+      "tagline": "Real-time gesture recognition that summons animated characters onto the screen.",
+      "category": "Computer Vision",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/VisionSummoner",
+      "github": "https://github.com/MohitKB22/VisionSummoner",
+      "demo": null,
+      "stars": 1,
+      "accent": "#FF8A3D",
+      "description": "A real-time gesture-based character summoning system using computer vision and hand tracking. Recognised gestures trigger animated overlays composited onto the live camera feed — a genuinely fun project that is also a serious exercise in low-latency CV pipelines.",
+      "problem": "Gesture interfaces feel broken the moment latency exceeds roughly 100ms, which rules out most naive per-frame inference designs.",
+      "approach": "Track landmarks rather than classify raw frames, debounce gesture state transitions, and keep the render loop decoupled from inference.",
+      "features": [
+        "Real-time hand landmark tracking from webcam input",
+        "Gesture classification with temporal debouncing",
+        "Animated character overlay compositing",
+        "Decoupled inference and render loops for low latency",
+        "Configurable gesture-to-character mapping",
+        "Runs on consumer hardware without a GPU"
+      ],
+      "architecture": [
+        {
+          "layer": "Capture",
+          "detail": "Webcam frame acquisition and preprocessing"
+        },
+        {
+          "layer": "Tracking",
+          "detail": "Hand landmark detection per frame"
+        },
+        {
+          "layer": "Classifier",
+          "detail": "Gesture recognition with state debouncing"
+        },
+        {
+          "layer": "Render",
+          "detail": "Animated overlay compositing on the live feed"
+        }
+      ],
+      "stack": ["Python", "OpenCV", "MediaPipe", "NumPy", "Computer Vision"],
+      "metrics": [
+        {
+          "label": "Mode",
+          "value": "Real-time"
+        },
+        {
+          "label": "Hardware",
+          "value": "CPU only"
+        },
+        {
+          "label": "Input",
+          "value": "Webcam"
+        }
+      ]
+    },
+    {
+      "slug": "f1-analytics-dashboard",
+      "title": "F1 Analytics Dashboard",
+      "tagline": "NLP sentiment analysis with a Formula 1 obsession attached.",
+      "category": "NLP",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/F1-analytics-dashboard",
+      "github": "https://github.com/MohitKB22/F1-analytics-dashboard",
+      "demo": null,
+      "stars": 2,
+      "accent": "#E5484D",
+      "description": "An F1-themed sentiment analysis project that classifies text sentiment through a complete NLP pipeline — preprocessing, vectorisation, training, evaluation and prediction — presented with race-weekend flavour and an analyst's attention to the confusion matrix.",
+      "problem": "Sentiment models are easy to train and hard to trust; the interesting work is in preprocessing choices and error analysis, which most projects skip.",
+      "approach": "Treat the pipeline as the deliverable: reproducible preprocessing, comparable model variants and per-class error analysis.",
+      "features": [
+        "Complete text preprocessing and normalisation pipeline",
+        "Multiple model variants compared on identical splits",
+        "Per-class precision and recall with confusion matrix analysis",
+        "Real-time prediction interface",
+        "Reproducible training configuration",
+        "Race-weekend themed presentation layer"
+      ],
+      "architecture": [
+        {
+          "layer": "Preprocess",
+          "detail": "Tokenisation, normalisation and vectorisation"
+        },
+        {
+          "layer": "Train",
+          "detail": "Model variants with consistent evaluation splits"
+        },
+        {
+          "layer": "Evaluate",
+          "detail": "Per-class metrics and error analysis"
+        },
+        {
+          "layer": "Serve",
+          "detail": "Interactive prediction interface"
+        }
+      ],
+      "stack": ["Python", "NLP", "Scikit-learn", "Pandas", "Streamlit"],
+      "metrics": [
+        {
+          "label": "Pipeline",
+          "value": "End-to-end"
+        },
+        {
+          "label": "Analysis",
+          "value": "Per-class"
+        },
+        {
+          "label": "Theme",
+          "value": "F1"
+        }
+      ]
+    },
+    {
+      "slug": "ipl-command-center",
+      "title": "IPL Command Center",
+      "tagline": "Ball-by-ball IPL analytics — match, player and team trends in one dashboard.",
+      "category": "Data & MLOps",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/IPL-Command-Center",
+      "github": "https://github.com/MohitKB22/IPL-Command-Center",
+      "demo": null,
+      "stars": 1,
+      "accent": "#5AA8FF",
+      "description": "A data-driven IPL analytics dashboard offering deep insight into match performance, player metrics and team trends, with dynamic visualisations, run-rate analysis and historical comparison across seasons to surface the patterns that decide T20 matches.",
+      "problem": "Cricket statistics are abundant but rarely comparable across seasons, and most dashboards cannot answer the only question that matters: is this unusual?",
+      "approach": "Normalise across seasons first, then build every view around comparison to a historical baseline.",
+      "features": [
+        "Match-level performance breakdown",
+        "Player metrics with career trajectory views",
+        "Team trend analysis across seasons",
+        "Run rate and phase-of-innings analysis",
+        "Historical baseline comparison for every metric",
+        "Dynamic filtering by season, team and player"
+      ],
+      "architecture": [
+        {
+          "layer": "Data",
+          "detail": "Ball-by-ball ingestion and season normalisation"
+        },
+        {
+          "layer": "Metrics",
+          "detail": "Player, team and phase-level metric computation"
+        },
+        {
+          "layer": "Compare",
+          "detail": "Historical baselining for anomaly surfacing"
+        },
+        {
+          "layer": "Visualise",
+          "detail": "Interactive dashboard with cross-filtering"
+        }
+      ],
+      "stack": ["Python", "Pandas", "Streamlit", "Plotly", "NumPy"],
+      "metrics": [
+        {
+          "label": "Granularity",
+          "value": "Ball-by-ball"
+        },
+        {
+          "label": "Seasons",
+          "value": "Historical"
+        },
+        {
+          "label": "Views",
+          "value": "Cross-filtered"
+        }
+      ]
+    },
+    {
+      "slug": "text-sentiment-engine",
+      "title": "Text Sentiment Engine",
+      "tagline": "A clean, reproducible NLP sentiment pipeline from preprocessing to evaluation.",
+      "category": "NLP",
+      "featured": false,
+      "year": "2026",
+      "status": "archived",
+      "repo": "MohitKB22/text-sentiment-engine",
+      "github": "https://github.com/MohitKB22/text-sentiment-engine",
+      "demo": null,
+      "stars": 1,
+      "accent": "#8EA2C6",
+      "description": "An NLP sentiment analysis engine that processes text data and predicts emotional tone using modern machine learning models, with preprocessing, training and evaluation pipelines kept separate and reproducible.",
+      "problem": "Sentiment code usually lives in one notebook where preprocessing and training are entangled and nothing can be rerun cleanly.",
+      "approach": "Separate the pipeline stages into independently runnable, configuration-driven modules.",
+      "features": [
+        "Modular preprocessing pipeline",
+        "Configurable model training stage",
+        "Standalone evaluation with saved metrics",
+        "Reproducible runs from configuration",
+        "Batch and single-text prediction",
+        "Clean separation of concerns across stages"
+      ],
+      "architecture": [
+        {
+          "layer": "Preprocess",
+          "detail": "Text cleaning, tokenisation and vectorisation"
+        },
+        {
+          "layer": "Train",
+          "detail": "Configuration-driven model fitting"
+        },
+        {
+          "layer": "Evaluate",
+          "detail": "Metric computation with persisted results"
+        }
+      ],
+      "stack": ["Python", "Scikit-learn", "NLTK", "Pandas", "NumPy"],
+      "metrics": [
+        {
+          "label": "Stages",
+          "value": "3"
+        },
+        {
+          "label": "Config",
+          "value": "Driven"
+        },
+        {
+          "label": "Reproducible",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "slug": "netflix-clone",
+      "title": "Streaming Platform Architecture",
+      "tagline": "Modern full-stack architecture with Next.js 15, Prisma, Auth.js and PostgreSQL.",
+      "category": "Full Stack",
+      "featured": false,
+      "year": "2026",
+      "status": "active",
+      "repo": "MohitKB22/Netflix-clone",
+      "github": "https://github.com/MohitKB22/Netflix-clone",
+      "demo": null,
+      "stars": 0,
+      "accent": "#E5484D",
+      "description": "A production-inspired streaming platform demonstrating modern full-stack architecture: Next.js 15 App Router with server components, Prisma over PostgreSQL, Auth.js session handling and end-to-end TypeScript. Built to exercise the patterns, not to clone a user interface.",
+      "problem": "Most clone projects reproduce a visual design and skip the architecture that makes the real product work: auth, data modelling and rendering strategy.",
+      "approach": "Start from the data model and the auth boundary, then build the interface on top of correctly-typed server components.",
+      "features": [
+        "Next.js 15 App Router with React Server Components",
+        "Prisma schema modelling profiles, watchlists and content",
+        "Auth.js authentication with session management",
+        "End-to-end TypeScript type safety",
+        "PostgreSQL persistence layer",
+        "Responsive browse interface"
+      ],
+      "architecture": [
+        {
+          "layer": "App",
+          "detail": "Next.js 15 App Router with server components"
+        },
+        {
+          "layer": "Auth",
+          "detail": "Auth.js sessions and route protection"
+        },
+        {
+          "layer": "Data",
+          "detail": "Prisma ORM over PostgreSQL"
+        },
+        {
+          "layer": "UI",
+          "detail": "Responsive browse and playback surfaces"
+        }
+      ],
+      "stack": ["Next.js", "TypeScript", "Prisma", "Auth.js", "PostgreSQL", "Tailwind CSS"],
+      "metrics": [
+        {
+          "label": "Framework",
+          "value": "Next 15"
+        },
+        {
+          "label": "Types",
+          "value": "End-to-end"
+        },
+        {
+          "label": "Auth",
+          "value": "Auth.js"
+        }
+      ]
+    }
+  ]
+}

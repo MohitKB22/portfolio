@@ -1,0 +1,84 @@
+---
+title: "RAG That Knows When It's Wrong"
+description: 'Naive retrieval-augmented generation fails silently. Here is the LangGraph architecture I use to make a RAG pipeline detect its own hallucinations and retry.'
+date: '2026-07-12'
+category: 'RAG'
+tags: ['RAG', 'LangGraph', 'Hallucination', 'Evaluation']
+featured: true
+---
+
+The standard RAG diagram has three boxes: embed the question, retrieve the chunks, generate the answer. It is a good teaching diagram and a bad production architecture, because it has no state in which the system is allowed to notice that retrieval went badly.
+
+## The silent failure
+
+When retrieval returns weak context, a well-tuned model does not refuse. It writes a fluent, confident, plausible answer built from parametric memory and whatever the retrieved chunks happened to mention. Nothing in the pipeline distinguishes that from a correct answer. Your latency graph looks fine. Your error rate is zero. Your users are being misled.
+
+I have hit this in three separate projects, and the fix was the same shape every time: make validation a node in the graph rather than a wrapper around it.
+
+## Modelling retrieval as a cyclic graph
+
+LangGraph is useful here specifically because it permits cycles.
+
+```python
+from langgraph.graph import StateGraph, END
+
+workflow = StateGraph(RAGState)
+
+workflow.add_node("retrieve", retrieve_documents)
+workflow.add_node("grade", grade_relevance)
+workflow.add_node("generate", generate_answer)
+workflow.add_node("validate", check_groundedness)
+workflow.add_node("rewrite", reformulate_query)
+
+workflow.set_entry_point("retrieve")
+workflow.add_edge("retrieve", "grade")
+
+workflow.add_conditional_edges(
+    "grade",
+    lambda s: "generate" if s["relevant_docs"] else "rewrite",
+    {"generate": "generate", "rewrite": "rewrite"},
+)
+
+workflow.add_edge("generate", "validate")
+
+workflow.add_conditional_edges(
+    "validate",
+    route_after_validation,
+    {"accept": END, "retry": "rewrite", "abstain": END},
+)
+
+workflow.add_edge("rewrite", "retrieve")
+```
+
+The important edge is `validate → rewrite → retrieve`. That cycle is the entire difference between a pipeline that fails silently and one that recovers.
+
+## Bounding the retries
+
+A cyclic graph without a budget is an outage waiting to happen. Every state carries an attempt counter:
+
+```python
+def route_after_validation(state: RAGState) -> str:
+    if state["groundedness"] >= 0.8:
+        return "accept"
+    if state["attempts"] >= 3:
+        return "abstain"
+    return "retry"
+```
+
+Three attempts, then the system says it does not know. Abstention is a feature. A RAG system that returns "this is not covered in the indexed documents" is more useful than one that guesses, because the first answer is actionable and the second is a landmine.
+
+## What groundedness actually measures
+
+The validator asks a narrow question: _is every factual claim in this answer supported by a span in the retrieved context?_ Not "is the answer good", not "is the answer true" — only whether it is entailed by the evidence the system actually saw.
+
+That narrowness is what makes it reliable. Broad quality judgements from an LLM judge are noisy. Entailment against a fixed context window is close to a classification task, and small models do it well and cheaply.
+
+## The cost question
+
+Every validation pass is an extra model call, and roughly one in five queries triggers a retry cycle. Call it a 40% increase in token spend on average.
+
+That is the correct trade. The alternative is not "cheaper RAG" — it is "RAG whose error rate you cannot measure". Spend the tokens.
+
+## What I would add next
+
+Caching the groundedness verdict per question-and-context pair removes most of the repeat cost on common queries. Beyond that, logging every retry decision with its inputs gives you a free evaluation dataset: the retries _are_ the hard cases, and hard cases are what your benchmark suite has been missing.

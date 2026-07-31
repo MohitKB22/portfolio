@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.github
+.husky
+coverage
+playwright-report
+test-results
+docs
+*.md
+!README.md
+.env
+.env*.local
+Dockerfile
+docker-compose.yml
+.vercel

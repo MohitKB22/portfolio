@@ -1,0 +1,68 @@
+---
+title: 'Multi-Agent Systems That Actually Ship'
+description: 'Most multi-agent demos collapse in production. What building a five-agent SOC framework taught me about hand-offs, shared state, and knowing when one agent is enough.'
+date: '2026-05-30'
+category: 'Agentic AI'
+tags: ['Agents', 'LangGraph', 'CrewAI', 'Architecture']
+---
+
+The honest version of multi-agent architecture: most problems do not need it, and the ones that do need it for a specific reason you should be able to state in one sentence.
+
+For the SOC framework I built, that sentence was: _the incident-response workflow has genuinely distinct roles with different context requirements, and forcing them into one prompt makes each role worse._
+
+## When multiple agents earn their cost
+
+Split into agents when you have:
+
+- **Genuinely different context needs.** The triage agent needs raw log volume. The report agent needs conclusions and none of the logs. One prompt containing both wastes tokens and dilutes attention.
+- **Different failure modes worth isolating.** If correlation fails, I want to retry correlation — not regenerate the entire analysis.
+- **Different models per role.** Cheap fast model for triage, stronger model for correlation reasoning.
+
+Do _not_ split because the diagram looks impressive. Every hand-off is a place where information is lost.
+
+## Shared state beats message passing
+
+The version that worked has agents reading and writing typed shared state rather than passing messages:
+
+```python
+class SOCState(TypedDict):
+    raw_events: list[Event]
+    triaged: list[TriagedEvent]
+    anomalies: list[Anomaly]
+    attack_techniques: list[MitreTechnique]
+    mitigation_plan: MitigationPlan | None
+    confidence: dict[str, float]
+    evidence: dict[str, list[str]]
+```
+
+Message passing loses provenance. With shared state, the report agent can read `evidence` and cite the exact log lines that led to a conclusion five steps upstream. That traceability is not a nice-to-have in security tooling — it is the product.
+
+## Confidence propagation
+
+Each agent writes a confidence score. Downstream agents read them and behave differently:
+
+```python
+def correlation_agent(state: SOCState) -> SOCState:
+    if state["confidence"]["anomaly_detection"] < 0.6:
+        return request_recheck(state, node="detect")
+    ...
+```
+
+Without this, a shaky upstream inference becomes a confident downstream assertion. This is the multi-agent equivalent of hallucination, and it is harder to spot because it looks like a considered pipeline output.
+
+## The failure I did not anticipate
+
+Agents agreeing with each other for the wrong reason. When the same base model plays several roles, the roles share blind spots and priors — so consensus means much less than it appears to.
+
+Two mitigations helped: use different models for roles that check each other, and make the checking role explicitly adversarial in its prompt rather than merely evaluative. "Find the weakest claim in this analysis" produces better output than "verify this analysis".
+
+## Cost discipline
+
+Five agents is five times the calls if you are careless. Cheap ordering fixes most of it:
+
+1. Deterministic filtering before any LLM call — most events never need a model
+2. Small model for classification, large model only for reasoning
+3. Cache aggressively on stable inputs
+4. Early exit as soon as the answer is determined
+
+The SOC pipeline processes most events without a single LLM call. Only the interesting few percent reach the expensive agents — which is also how a human SOC team works.

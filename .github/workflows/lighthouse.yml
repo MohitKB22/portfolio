@@ -1,0 +1,34 @@
+name: Lighthouse
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+
+jobs:
+  audit:
+    name: Lighthouse audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Start server
+        run: npm run start &
+      - name: Wait for server
+        run: npx wait-on http://127.0.0.1:3000 --timeout 60000
+      - name: Run Lighthouse
+        run: |
+          npx --yes lighthouse http://127.0.0.1:3000 \
+            --output=json --output=html \
+            --output-path=./lighthouse \
+            --chrome-flags="--headless --no-sandbox" \
+            --only-categories=performance,accessibility,best-practices,seo
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: lighthouse.report.html

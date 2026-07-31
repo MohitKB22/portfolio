@@ -1,0 +1,15 @@
+{
+  "name": "Mohit Barse — AI/ML Engineer",
+  "short_name": "Mohit Barse",
+  "description": "AI/ML Engineer building production LLM systems — agentic workflows, RAG, evaluation and guardrails.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050a14",
+  "theme_color": "#050a14",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

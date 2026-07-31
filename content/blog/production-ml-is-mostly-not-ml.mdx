@@ -1,0 +1,78 @@
+---
+title: 'Production ML Is Mostly Not ML'
+description: 'The model is maybe 10% of the work. Notes on the other 90% — data validation, drift monitoring, reproducibility and the deployment boundary.'
+date: '2026-05-08'
+category: 'MLOps'
+tags: ['MLOps', 'Data Quality', 'Drift', 'Docker']
+---
+
+I spent a long time believing model selection was the interesting part. Then I shipped things, and discovered the model was the one component that reliably worked.
+
+## The failure distribution
+
+Across the systems I have built, production issues break down roughly like this:
+
+- **Data problems** — schema drift, unexpected nulls, a source system silently changing units: the clear majority
+- **Deployment and environment issues** — dependency mismatch, missing config, resource limits
+- **Actual model quality problems** — a distant third
+
+Nobody writes tutorials about the first category, which is why everybody rediscovers it personally.
+
+## Validate at the boundary, loudly
+
+Every dataset entering the system passes a contract before anything else touches it:
+
+```python
+class TransactionSchema(pa.DataFrameModel):
+    amount: Series[float] = pa.Field(ge=0, le=1_000_000)
+    currency: Series[str] = pa.Field(isin=["INR", "USD", "EUR"])
+    timestamp: Series[pd.Timestamp] = pa.Field(nullable=False)
+    merchant_id: Series[str] = pa.Field(str_matches=r"^M\d{8}$")
+
+    class Config:
+        strict = True
+        coerce = False
+```
+
+`strict = True` and `coerce = False` matter more than the individual rules. Silent coercion is how a string column becomes floats becomes garbage predictions, three weeks before anyone notices.
+
+## Monitor the inputs, not just the outputs
+
+Model accuracy metrics arrive late — you need labels, and labels lag. Input distribution shifts arrive immediately.
+
+Track per-feature drift with a population stability index or a KS test against the training distribution, alert on threshold breach, and you find out on the day the upstream system changed rather than the month the business noticed.
+
+## Reproducibility is a Dockerfile, not a README
+
+If your setup instructions are prose, they are already wrong. Pin the whole environment:
+
+```dockerfile
+FROM python:3.11-slim AS base
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+
+WORKDIR /app
+COPY requirements.lock .
+RUN pip install --no-cache-dir -r requirements.lock
+
+COPY src/ ./src/
+COPY models/ ./models/
+
+HEALTHCHECK --interval=30s --timeout=5s \
+  CMD python -c "import requests; requests.get('http://localhost:8000/health').raise_for_status()"
+
+CMD ["uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+A lockfile, not a range. A healthcheck, not hope.
+
+## Where the model actually lives
+
+The deployment boundary deserves more thought than it usually gets. A model behind a REST endpoint is easy to reason about and easy to scale independently. A model imported directly into the application process is faster and much harder to update.
+
+I default to the service boundary, because being able to roll back the model without redeploying the application has saved me more time than the latency ever cost.
+
+## The unglamorous conclusion
+
+Getting a model from 0.89 to 0.91 is a week of work most users will not perceive. Catching the data pipeline that silently started dropping 4% of records is an afternoon that saves the entire system.
+
+Spend your time accordingly.

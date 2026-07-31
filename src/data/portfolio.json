@@ -1,0 +1,821 @@
+{
+  "profile": {
+    "name": "Mohit Barse",
+    "firstName": "Mohit",
+    "lastName": "Barse",
+    "initials": "MB",
+    "title": "AI/ML Engineer",
+    "titles": [
+      "AI/ML Engineer",
+      "LLM & Agentic AI Developer",
+      "RAG Systems Engineer",
+      "Full Stack Python Developer"
+    ],
+    "typingPhrases": [
+      "LLMs & RAG pipelines",
+      "agentic workflows",
+      "evaluation & guardrails",
+      "containerised ML services"
+    ],
+    "tagline": "Building intelligent systems with LLMs, agents and production ML.",
+    "headline": "Building production AI with",
+    "headlineAccent": "LLMs, Agents & Retrieval",
+    "summary": "AI/ML Engineer specialising in large language models, agentic workflows and retrieval-augmented generation. I design evaluation-first AI systems — guardrails, hallucination detection and observability built in — and ship them as containerised, production-ready services.",
+    "longSummary": "I'm a Computer Science & Engineering (Data Science) graduate from Tulsiramji Gaikwad Patil College of Engineering, Nagpur, working at the intersection of applied machine learning and production software engineering. My focus is the unglamorous half of AI that decides whether a system survives contact with real users: evaluation harnesses, guardrails, retrieval quality, drift monitoring and reproducible deployment. I've shipped 23 public projects spanning multi-agent security operations, self-healing RAG pipelines, LLM guardrail gateways and explainable financial intelligence — each built as a service, not a notebook.",
+    "avatar": "/images/avatar.jpg",
+    "avatarLocal": "/images/avatar-portrait.jpg",
+    "location": "Nagpur, Maharashtra, India",
+    "timezone": "IST (UTC+5:30)",
+    "email": "mohitbarse2230@gmail.com",
+    "phone": "+91 8485874289",
+    "availability": {
+      "status": "available",
+      "label": "Available for AI/ML roles",
+      "detail": "Open to full-time AI/ML Engineer and LLM Engineer opportunities — remote or relocating."
+    },
+    "resumePath": "/Mohit_Barse_Resume.pdf",
+    "pronouns": "he/him",
+    "languages": ["English", "Hindi", "Marathi"]
+  },
+  "stats": [
+    {
+      "label": "Years Building",
+      "value": 3,
+      "suffix": "+",
+      "icon": "CalendarDays"
+    },
+    {
+      "label": "Public Projects",
+      "value": 23,
+      "suffix": "",
+      "icon": "FolderGit2"
+    },
+    {
+      "label": "DSA Problems",
+      "value": 300,
+      "suffix": "+",
+      "icon": "Braces"
+    },
+    {
+      "label": "GitHub Followers",
+      "value": 57,
+      "suffix": "+",
+      "icon": "Users"
+    }
+  ],
+  "social": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/MohitKB22",
+      "icon": "github",
+      "handle": "@MohitKB22",
+      "primary": true
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/mohit-b-9a997b301/",
+      "icon": "linkedin",
+      "handle": "mohit-b",
+      "primary": true
+    },
+    {
+      "name": "LeetCode",
+      "url": "https://leetcode.com/u/Mohit_Barse/",
+      "icon": "leetcode",
+      "handle": "Mohit_Barse",
+      "primary": true
+    },
+    {
+      "name": "Email",
+      "url": "mailto:mohitbarse2230@gmail.com",
+      "icon": "mail",
+      "handle": "mohitbarse2230@gmail.com",
+      "primary": true
+    }
+  ],
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About",
+      "href": "/about"
+    },
+    {
+      "label": "Experience",
+      "href": "/experience"
+    },
+    {
+      "label": "Projects",
+      "href": "/projects"
+    },
+    {
+      "label": "Skills",
+      "href": "/skills"
+    },
+    {
+      "label": "Achievements",
+      "href": "/achievements"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact"
+    }
+  ],
+  "experience": [
+    {
+      "id": "qspiders",
+      "role": "Python Full Stack Developer Intern",
+      "company": "QSpiders",
+      "companyUrl": "https://qspiders.com",
+      "logoText": "QS",
+      "location": "Nagpur, India",
+      "type": "Internship",
+      "start": "2026-05",
+      "end": null,
+      "current": true,
+      "summary": "Building modular Python backends and hardening the API layer behind internal products.",
+      "highlights": [
+        "Engineered RESTful APIs in Python, improving backend maintainability through modular application design and structured request/response validation.",
+        "Optimised debugging and testing workflows, collaborating with cross-functional teams to resolve implementation and data-quality issues efficiently.",
+        "Moved validation to the service boundary so malformed payloads fail fast instead of reaching downstream consumers."
+      ],
+      "stack": ["Python", "FastAPI", "REST APIs", "SQL", "Pytest", "Git"]
+    },
+    {
+      "id": "labmentix",
+      "role": "AI/ML Engineer Intern",
+      "company": "Labmentix Edtech Private Limited",
+      "companyUrl": null,
+      "logoText": "LM",
+      "location": "Remote",
+      "type": "Internship",
+      "start": "2025-12",
+      "end": "2026-06",
+      "current": false,
+      "summary": "Evaluated and improved LLM output quality against structured rubrics, and cleaned the datasets behind them.",
+      "highlights": [
+        "Evaluated LLM responses against quality guidelines, identifying recurring error patterns and improving response relevance and accuracy by 30%.",
+        "Validated structured and unstructured datasets, performing root-cause analysis to improve annotation consistency and AI evaluation quality.",
+        "Codified reviewer disagreements into a shared rubric, making evaluation results reproducible across annotators."
+      ],
+      "stack": ["LLM Evaluation", "Python", "Prompt Engineering", "Data Annotation", "Pandas"]
+    },
+    {
+      "id": "codons",
+      "role": "Data Analytics Intern",
+      "company": "Codon's Technologies",
+      "companyUrl": null,
+      "logoText": "CT",
+      "location": "Nagpur, India",
+      "type": "Internship",
+      "start": "2025-11",
+      "end": "2026-02",
+      "current": false,
+      "summary": "Turned raw operational records into analysis-ready datasets and surfaced the anomalies hiding in them.",
+      "highlights": [
+        "Processed and analysed 10,000+ records using Python, ensuring high-quality, consistent datasets for downstream analytics.",
+        "Conducted exploratory data analysis to identify anomalies, improving dataset quality and supporting data-driven business decisions.",
+        "Automated recurring cleaning steps into reusable pipelines, removing manual preparation from the weekly reporting cycle."
+      ],
+      "stack": ["Python", "Pandas", "NumPy", "SQL", "Matplotlib", "EDA"]
+    }
+  ],
+  "education": [
+    {
+      "id": "tgpcet",
+      "institution": "Tulsiramji Gaikwad Patil College of Engineering",
+      "degree": "Bachelor of Technology",
+      "field": "Computer Science & Engineering (Data Science)",
+      "location": "Nagpur, Maharashtra",
+      "start": "2022",
+      "end": "2026",
+      "score": null,
+      "scoreLabel": null,
+      "logoText": "TG",
+      "highlights": [
+        "Specialised in data science: machine learning, deep learning, statistics and data engineering.",
+        "Capstone work focused on applied LLM systems and retrieval-augmented generation.",
+        "Built and open-sourced 23 projects alongside coursework."
+      ]
+    },
+    {
+      "id": "stpaul",
+      "institution": "St. Paul Junior College, Hudkeshwar",
+      "degree": "Higher Secondary Certificate (HSC)",
+      "field": "Science — PCM with Computer Science",
+      "location": "Nagpur, Maharashtra",
+      "start": "2020",
+      "end": "2022",
+      "score": "71.33%",
+      "scoreLabel": "Percentage",
+      "logoText": "SP",
+      "highlights": ["Science stream with mathematics and computer science as core subjects."]
+    },
+    {
+      "id": "montfort",
+      "institution": "Montfort School",
+      "degree": "Secondary School Certificate (SSC)",
+      "field": "General Studies",
+      "location": "Nagpur, Maharashtra",
+      "start": "2007",
+      "end": "2020",
+      "score": "65.75%",
+      "scoreLabel": "Percentage",
+      "logoText": "MS",
+      "highlights": ["Thirteen years of schooling; first exposure to programming and mathematics."]
+    }
+  ],
+  "skillGroups": [
+    {
+      "id": "ai-ml",
+      "name": "AI & Machine Learning",
+      "icon": "BrainCircuit",
+      "description": "Model building, training and evaluation across classical ML and deep learning.",
+      "skills": [
+        {
+          "name": "Large Language Models",
+          "level": 92
+        },
+        {
+          "name": "Deep Learning",
+          "level": 88
+        },
+        {
+          "name": "Natural Language Processing",
+          "level": 88
+        },
+        {
+          "name": "Computer Vision",
+          "level": 80
+        },
+        {
+          "name": "Scikit-learn",
+          "level": 90
+        },
+        {
+          "name": "Fine-tuning & Transfer Learning",
+          "level": 82
+        }
+      ]
+    },
+    {
+      "id": "genai",
+      "name": "Generative & Agentic AI",
+      "icon": "Sparkles",
+      "description": "Agent orchestration, retrieval pipelines and evaluation harnesses.",
+      "skills": [
+        {
+          "name": "RAG Pipelines",
+          "level": 92
+        },
+        {
+          "name": "LangChain",
+          "level": 88
+        },
+        {
+          "name": "LangGraph",
+          "level": 84
+        },
+        {
+          "name": "Prompt Engineering",
+          "level": 90
+        },
+        {
+          "name": "AI Guardrails & Safety",
+          "level": 86
+        },
+        {
+          "name": "LLM Evaluation",
+          "level": 90
+        }
+      ]
+    },
+    {
+      "id": "frameworks",
+      "name": "Frameworks & Libraries",
+      "icon": "Layers",
+      "description": "The tooling I reach for when a model has to become a service.",
+      "skills": [
+        {
+          "name": "PyTorch",
+          "level": 86
+        },
+        {
+          "name": "TensorFlow",
+          "level": 82
+        },
+        {
+          "name": "Hugging Face Transformers",
+          "level": 86
+        },
+        {
+          "name": "FastAPI",
+          "level": 90
+        },
+        {
+          "name": "Streamlit",
+          "level": 88
+        },
+        {
+          "name": "Pandas / NumPy",
+          "level": 92
+        }
+      ]
+    },
+    {
+      "id": "languages",
+      "name": "Languages",
+      "icon": "Code2",
+      "description": "Primary implementation languages.",
+      "skills": [
+        {
+          "name": "Python",
+          "level": 95
+        },
+        {
+          "name": "SQL",
+          "level": 88
+        },
+        {
+          "name": "TypeScript",
+          "level": 72
+        },
+        {
+          "name": "Bash",
+          "level": 70
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Databases & Vector Stores",
+      "icon": "Database",
+      "description": "Where the state and the embeddings live.",
+      "skills": [
+        {
+          "name": "PostgreSQL / MySQL",
+          "level": 86
+        },
+        {
+          "name": "MongoDB",
+          "level": 82
+        },
+        {
+          "name": "Pinecone",
+          "level": 84
+        },
+        {
+          "name": "ChromaDB / FAISS",
+          "level": 82
+        },
+        {
+          "name": "Redis",
+          "level": 74
+        }
+      ]
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud, MLOps & DevOps",
+      "icon": "Cloud",
+      "description": "Shipping, observing and keeping models alive in production.",
+      "skills": [
+        {
+          "name": "Docker",
+          "level": 88
+        },
+        {
+          "name": "AWS",
+          "level": 80
+        },
+        {
+          "name": "CI/CD (GitHub Actions)",
+          "level": 84
+        },
+        {
+          "name": "MLflow",
+          "level": 76
+        },
+        {
+          "name": "Airflow",
+          "level": 72
+        },
+        {
+          "name": "Model Monitoring & Drift",
+          "level": 80
+        }
+      ]
+    },
+    {
+      "id": "frontend",
+      "name": "Frontend & Product",
+      "icon": "MonitorSmartphone",
+      "description": "Interfaces that make model output legible to humans.",
+      "skills": [
+        {
+          "name": "React",
+          "level": 78
+        },
+        {
+          "name": "Next.js",
+          "level": 76
+        },
+        {
+          "name": "Tailwind CSS",
+          "level": 80
+        },
+        {
+          "name": "Data Visualisation",
+          "level": 84
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "name": "AI Security & Reliability",
+      "icon": "ShieldCheck",
+      "description": "Adversarial thinking applied to model-backed systems.",
+      "skills": [
+        {
+          "name": "Prompt Injection Defence",
+          "level": 84
+        },
+        {
+          "name": "MITRE ATT&CK Correlation",
+          "level": 78
+        },
+        {
+          "name": "Anomaly Detection",
+          "level": 84
+        },
+        {
+          "name": "Policy & Content Filtering",
+          "level": 86
+        }
+      ]
+    }
+  ],
+  "aiStack": [
+    {
+      "name": "OpenAI",
+      "category": "Model Providers",
+      "description": "GPT-class models for reasoning, extraction and structured output."
+    },
+    {
+      "name": "Anthropic Claude",
+      "category": "Model Providers",
+      "description": "Long-context reasoning and tool-using agents in AutoMail Agent."
+    },
+    {
+      "name": "Google Gemini",
+      "category": "Model Providers",
+      "description": "Multimodal grounding for combined image and text pipelines."
+    },
+    {
+      "name": "Groq",
+      "category": "Model Providers",
+      "description": "Low-latency inference for interactive agent loops."
+    },
+    {
+      "name": "Ollama",
+      "category": "Model Providers",
+      "description": "Local model serving for offline and privacy-sensitive workloads."
+    },
+    {
+      "name": "Hugging Face",
+      "category": "Model Providers",
+      "description": "Transformer fine-tuning, model hosting and datasets."
+    },
+    {
+      "name": "LangChain",
+      "category": "Orchestration",
+      "description": "Chains, tools and retrievers for composable LLM applications."
+    },
+    {
+      "name": "LangGraph",
+      "category": "Orchestration",
+      "description": "Stateful, cyclic agent graphs — the backbone of self-healing RAG."
+    },
+    {
+      "name": "CrewAI",
+      "category": "Orchestration",
+      "description": "Role-based multi-agent collaboration in the SOC framework."
+    },
+    {
+      "name": "MCP",
+      "category": "Orchestration",
+      "description": "Model Context Protocol servers for typed tool access."
+    },
+    {
+      "name": "Pinecone",
+      "category": "Retrieval",
+      "description": "Managed vector search for production RAG."
+    },
+    {
+      "name": "ChromaDB",
+      "category": "Retrieval",
+      "description": "Local-first vector store for rapid iteration."
+    },
+    {
+      "name": "FAISS",
+      "category": "Retrieval",
+      "description": "Dense similarity search over large embedding sets."
+    },
+    {
+      "name": "Hybrid Search",
+      "category": "Retrieval",
+      "description": "BM25 and dense fusion with reciprocal rank re-ranking."
+    },
+    {
+      "name": "Hallucination Detection",
+      "category": "Evaluation & Safety",
+      "description": "Groundedness scoring against retrieved evidence."
+    },
+    {
+      "name": "Guardrails",
+      "category": "Evaluation & Safety",
+      "description": "Policy enforcement, PII redaction and content filtering at the gateway."
+    },
+    {
+      "name": "Red Teaming",
+      "category": "Evaluation & Safety",
+      "description": "Adversarial prompt suites run as CI quality gates."
+    },
+    {
+      "name": "RAGAS-style Metrics",
+      "category": "Evaluation & Safety",
+      "description": "Faithfulness, answer relevance and context precision tracking."
+    },
+    {
+      "name": "LoRA / PEFT",
+      "category": "Training",
+      "description": "Parameter-efficient fine-tuning on consumer hardware."
+    },
+    {
+      "name": "SHAP",
+      "category": "Training",
+      "description": "Feature attribution for explainable financial models."
+    },
+    {
+      "name": "MLflow",
+      "category": "Training",
+      "description": "Experiment tracking and model registry."
+    },
+    {
+      "name": "Grad-CAM",
+      "category": "Training",
+      "description": "Visual explanations for CNN classification decisions."
+    }
+  ],
+  "techStack": [
+    {
+      "name": "Python",
+      "icon": "SiPython"
+    },
+    {
+      "name": "FastAPI",
+      "icon": "SiFastapi"
+    },
+    {
+      "name": "PyTorch",
+      "icon": "SiPytorch"
+    },
+    {
+      "name": "TensorFlow",
+      "icon": "SiTensorflow"
+    },
+    {
+      "name": "LangChain",
+      "icon": "SiLangchain"
+    },
+    {
+      "name": "React",
+      "icon": "SiReact"
+    },
+    {
+      "name": "Next.js",
+      "icon": "SiNextdotjs"
+    },
+    {
+      "name": "PostgreSQL",
+      "icon": "SiPostgresql"
+    },
+    {
+      "name": "MongoDB",
+      "icon": "SiMongodb"
+    },
+    {
+      "name": "Redis",
+      "icon": "SiRedis"
+    },
+    {
+      "name": "Docker",
+      "icon": "SiDocker"
+    },
+    {
+      "name": "Streamlit",
+      "icon": "SiStreamlit"
+    },
+    {
+      "name": "Pandas",
+      "icon": "SiPandas"
+    },
+    {
+      "name": "Git",
+      "icon": "SiGit"
+    },
+    {
+      "name": "Linux",
+      "icon": "SiLinux"
+    },
+    {
+      "name": "Hugging Face",
+      "icon": "SiHuggingface"
+    }
+  ],
+  "achievements": [
+    {
+      "title": "300+ DSA Problems Solved",
+      "description": "Consistent problem-solving on LeetCode across arrays, graphs, dynamic programming and design questions.",
+      "icon": "Trophy",
+      "metric": "300+",
+      "href": "https://leetcode.com/u/Mohit_Barse/",
+      "year": "2026"
+    },
+    {
+      "title": "23 Public Open-Source Projects",
+      "description": "Production-style AI systems shipped publicly — agentic SOC, self-healing RAG, guardrail gateways and analytics platforms.",
+      "icon": "GitBranch",
+      "metric": "23",
+      "href": "https://github.com/MohitKB22?tab=repositories",
+      "year": "2026"
+    },
+    {
+      "title": "30% Lift in LLM Response Quality",
+      "description": "Identified recurring failure patterns in LLM outputs at Labmentix and drove a measurable improvement in relevance and accuracy.",
+      "icon": "TrendingUp",
+      "metric": "+30%",
+      "href": null,
+      "year": "2026"
+    },
+    {
+      "title": "10,000+ Records Analysed",
+      "description": "Built repeatable cleaning and exploratory analysis pipelines over operational data at Codon's Technologies.",
+      "icon": "Database",
+      "metric": "10k+",
+      "href": null,
+      "year": "2026"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Machine Learning Specialization",
+      "issuer": "Stanford University & DeepLearning.AI",
+      "platform": "Coursera",
+      "year": "2025",
+      "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+      "skills": [
+        "Supervised Learning",
+        "Unsupervised Learning",
+        "Recommender Systems",
+        "Reinforcement Learning"
+      ]
+    },
+    {
+      "name": "Deep Learning Specialization",
+      "issuer": "DeepLearning.AI",
+      "platform": "Coursera",
+      "year": "2025",
+      "url": "https://www.coursera.org/specializations/deep-learning",
+      "skills": ["Neural Networks", "CNNs", "Sequence Models", "Transformers"]
+    },
+    {
+      "name": "AWS Cloud Technology Consultant Professional Certificate",
+      "issuer": "Amazon Web Services",
+      "platform": "Coursera",
+      "year": "2026",
+      "url": "https://www.coursera.org/professional-certificates/aws-cloud-technology-consultant",
+      "skills": ["AWS Core Services", "Cloud Architecture", "Migration", "Cost Optimisation"]
+    }
+  ],
+  "interests": [
+    {
+      "title": "Evaluation-first AI",
+      "description": "An LLM feature without an eval harness is a demo, not a product.",
+      "icon": "Gauge"
+    },
+    {
+      "title": "Agentic systems",
+      "description": "Multi-step, tool-using agents that recover from their own mistakes.",
+      "icon": "Workflow"
+    },
+    {
+      "title": "AI safety & guardrails",
+      "description": "Making model behaviour predictable enough to put in front of real users.",
+      "icon": "ShieldCheck"
+    },
+    {
+      "title": "Competitive programming",
+      "description": "300+ problems deep and still fond of a clean graph traversal.",
+      "icon": "Braces"
+    },
+    {
+      "title": "F1 & cricket analytics",
+      "description": "Two of my dashboards exist purely because I wanted better race and IPL stats.",
+      "icon": "Flag"
+    },
+    {
+      "title": "Open source",
+      "description": "Everything I learn ends up as a public repository with a README worth reading.",
+      "icon": "Github"
+    }
+  ],
+  "timeline": [
+    {
+      "year": "2007",
+      "title": "Started school at Montfort",
+      "description": "Thirteen years at Montfort School, Nagpur — where the maths clicked.",
+      "type": "education"
+    },
+    {
+      "year": "2020",
+      "title": "Completed SSC — 65.75%",
+      "description": "Finished secondary schooling and chose the science stream.",
+      "type": "education"
+    },
+    {
+      "year": "2022",
+      "title": "Completed HSC — 71.33%",
+      "description": "St. Paul Junior College, Hudkeshwar. PCM with computer science.",
+      "type": "education"
+    },
+    {
+      "year": "2022",
+      "title": "Began B.Tech in CSE (Data Science)",
+      "description": "Tulsiramji Gaikwad Patil College of Engineering, Nagpur.",
+      "type": "education"
+    },
+    {
+      "year": "2024",
+      "title": "Went deep on machine learning",
+      "description": "Completed the Stanford and DeepLearning.AI specialisations; started building in public.",
+      "type": "milestone"
+    },
+    {
+      "year": "2025",
+      "title": "First analytics and AI internships",
+      "description": "Data Analytics at Codon's Technologies, then AI/ML Engineering at Labmentix.",
+      "type": "work"
+    },
+    {
+      "year": "2026",
+      "title": "Shipped 20+ AI systems and graduated",
+      "description": "Agentic SOC, self-healing RAG, guardrail gateways — plus a Python full-stack internship at QSpiders.",
+      "type": "milestone"
+    }
+  ],
+  "contact": {
+    "heading": "Let's build something intelligent",
+    "subheading": "I'm open to AI/ML Engineer roles, LLM engineering work and interesting collaborations. The fastest way to reach me is email — I reply within a day.",
+    "responseTime": "Usually replies within 24 hours",
+    "topics": [
+      "Full-time AI/ML roles",
+      "LLM & RAG consulting",
+      "Open-source collaboration",
+      "Speaking & mentoring"
+    ]
+  },
+  "seo": {
+    "siteName": "Mohit Barse — AI/ML Engineer",
+    "defaultTitle": "Mohit Barse — AI/ML Engineer",
+    "titleTemplate": "%s · Mohit Barse",
+    "description": "AI/ML Engineer building production LLM systems — agentic workflows, retrieval-augmented generation, evaluation harnesses and AI guardrails. Based in Nagpur, India.",
+    "keywords": [
+      "Mohit Barse",
+      "AI Engineer",
+      "ML Engineer",
+      "Machine Learning Engineer",
+      "LLM Engineer",
+      "RAG",
+      "LangChain",
+      "LangGraph",
+      "Agentic AI",
+      "AI Guardrails",
+      "LLM Evaluation",
+      "Python Developer",
+      "FastAPI",
+      "Deep Learning",
+      "Nagpur",
+      "India",
+      "AI portfolio"
+    ],
+    "locale": "en_IN",
+    "twitterHandle": "@MohitBarse"
+  }
+}

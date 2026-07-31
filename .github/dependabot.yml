@@ -1,0 +1,33 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+    open-pull-requests-limit: 8
+    versioning-strategy: increase
+    labels: ['dependencies']
+    commit-message:
+      prefix: 'chore'
+      include: scope
+    groups:
+      react:
+        patterns: ['react', 'react-dom', '@types/react', '@types/react-dom']
+      next:
+        patterns: ['next', 'eslint-config-next', '@next/*']
+      three:
+        patterns: ['three', '@types/three', '@react-three/*']
+      radix:
+        patterns: ['@radix-ui/*']
+      dev-tooling:
+        patterns: ['eslint*', 'prettier*', 'vitest', '@vitejs/*', 'typescript']
+
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: monthly
+    labels: ['ci']
+    commit-message:
+      prefix: 'ci'

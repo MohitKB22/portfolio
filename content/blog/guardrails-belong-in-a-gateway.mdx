@@ -1,0 +1,76 @@
+---
+title: 'Guardrails Belong in a Gateway, Not in Every Call Site'
+description: 'Scattering safety checks across your codebase guarantees they drift. Centralising them as middleware makes policy auditable and updatable in one place.'
+date: '2026-06-15'
+category: 'AI Safety'
+tags: ['Guardrails', 'AI Safety', 'Architecture', 'Prompt Injection']
+---
+
+Here is how safety logic usually gets written: someone adds a profanity check to one endpoint. Two sprints later a different person adds PII redaction to another. Six months on there are eleven call sites, four slightly different implementations, and nobody can answer the question "what does this system block?"
+
+## The gateway pattern
+
+Put one component between the application and the model provider. Everything goes through it, in both directions.
+
+```python
+class GuardrailGateway:
+    def __init__(self, policies: list[Policy], provider: ModelProvider):
+        self.policies = policies
+        self.provider = provider
+
+    async def complete(self, request: LLMRequest) -> LLMResponse:
+        ingress = await self.evaluate(request, phase="ingress")
+        if ingress.blocked:
+            return LLMResponse.refused(ingress.reason, rule=ingress.rule_id)
+
+        raw = await self.provider.complete(ingress.sanitized_request)
+
+        egress = await self.evaluate(raw, phase="egress")
+        if egress.blocked:
+            return LLMResponse.refused(egress.reason, rule=egress.rule_id)
+
+        return egress.sanitized_response
+```
+
+Application code calls `gateway.complete()` and knows nothing about policy. Policy lives in one file, is versioned, and is reviewable by someone who is not an engineer.
+
+## Both directions matter
+
+Ingress checks catch injection attempts and strip PII before it reaches a third-party API. Egress checks catch the model doing something the prompt did not anticipate.
+
+Teams almost always implement ingress and skip egress, which is backwards — egress is where the user-visible harm happens. A blocked prompt is an inconvenience. An unblocked response is an incident.
+
+## Prompt injection is not solved, and that is fine
+
+You cannot fully prevent prompt injection with pattern matching. Anyone claiming otherwise is selling something. What a gateway _can_ do is reduce the blast radius:
+
+- Strip or escape known instruction-override patterns
+- Bound which tools the model may call in a given context
+- Require structured output, so free-form instruction-following has nowhere to land
+- Log every suspicious pattern for later analysis
+
+Defence in depth, not a solved problem. The gateway is where that depth gets implemented, because it is the only place that sees every request.
+
+## Observability is the underrated half
+
+Every decision emits a structured event: which rule fired, at which phase, what the input looked like after redaction, what it cost.
+
+```json
+{
+  "request_id": "req_8f3a",
+  "phase": "egress",
+  "decision": "block",
+  "rule_id": "policy.no_financial_advice",
+  "confidence": 0.94,
+  "latency_ms": 41,
+  "tokens": { "prompt": 812, "completion": 156 }
+}
+```
+
+Six weeks of these logs tells you which rules are too aggressive, which never fire, and which class of input your policy set does not cover at all. Without the gateway, that data does not exist anywhere.
+
+## The overhead
+
+Two extra checks add roughly 40-80ms and a small classifier cost per request. If that is unacceptable for your latency budget, run egress checks asynchronously and gate only the high-risk paths synchronously.
+
+What is not acceptable is having no idea what your system permits.
