@@ -94,7 +94,7 @@
     "eslint-config-prettier": "^10.0.1",
     "husky": "^9.1.7",
     "jsdom": "^26.0.0",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^17.2.0",
     "prettier": "^3.5.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.0.6",
