@@ -73,7 +73,7 @@
     "shiki": "^1.29.2",
     "sonner": "^2.0.0",
     "tailwind-merge": "^3.0.1",
-    "three": "^0.173.0",
+    "three": "^0.185.1",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -87,7 +87,7 @@
     "@types/node": "^22.13.1",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
-    "@types/three": "^0.173.0",
+    "@types/three": "^0.185.1",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.20.0",
     "eslint-config-next": "^15.2.0",
